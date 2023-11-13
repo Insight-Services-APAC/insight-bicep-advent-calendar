@@ -1,0 +1,6 @@
+{
+    "resourceGroup": "arg",
+    "networkSecurityGroup": "nsg",
+    "virtualNetwork": "vnt",
+    "routeTable": "udr"
+}

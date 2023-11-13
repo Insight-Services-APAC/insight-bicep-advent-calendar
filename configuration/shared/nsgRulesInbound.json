@@ -1,0 +1,44 @@
+{
+  "networkSecurityGroupSecurityRulesInbound": [
+    {
+      "name": "INBOUND-FROM-virtualNetwork-TO-virtualNetwork-PORT-any-PROT-Icmp-ALLOW",
+      "properties": {
+        "protocol": "Icmp",
+        "sourcePortRange": "*",
+        "sourcePortRanges": [],
+        "destinationPortRange": "*",
+        "destinationPortRanges": [],
+        "sourceAddressPrefix": "VirtualNetwork",
+        "sourceAddressPrefixes": [],
+        "sourceApplicationSecurityGroupIds": [],
+        "destinationAddressPrefix": "VirtualNetwork",
+        "destinationAddressPrefixes": [],
+        "destinationApplicationSecurityGroupIds": [],
+        "access": "Allow",
+        "priority": 1000,
+        "direction": "Inbound",
+        "description": "Shared - Allow Outbound ICMP traffic (Port *) from the subnet."
+      }
+    },
+    {
+      "name": "INBOUND-FROM-any-TO-any-PORT-any-PROT-any-DENY",
+      "properties": {
+        "protocol": "*",
+        "sourcePortRange": "*",
+        "sourcePortRanges": [],
+        "destinationPortRange": "*",
+        "destinationPortRanges": [],
+        "sourceAddressPrefix": "*",
+        "sourceAddressPrefixes": [],
+        "sourceApplicationSecurityGroupIds": [],
+        "destinationAddressPrefix": "*",
+        "destinationAddressPrefixes": [],
+        "destinationApplicationSecurityGroupIds": [],
+        "access": "Deny",
+        "priority": 4096,
+        "direction": "Inbound",
+        "description": "Shared - Deny Inbound traffic (Port *) from the subnet."
+      }
+    }
+  ]
+}
