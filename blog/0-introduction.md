@@ -1,7 +1,7 @@
 # Introducing the Azure Bicep Advent Calendar
 
 <div style="width: 400px; height: 400px; overflow: hidden;">
-  <img src="../insight-bicep-advent-calendar/.images/edc0a9db-353c-49fb-9843-70bb375a3c62.jpg" alt="Bicep Advent Calendar" style="clip: rect(0px,60px,200px,0px);">
+  <img src="../insight-bicep-advent-calendar/.images/../../blog/.images/edc0a9db-353c-49fb-9843-70bb375a3c62.jpg" alt="Bicep Advent Calendar" style="clip: rect(0px,60px,200px,0px);">
 </div>
 
 ## Welcome
