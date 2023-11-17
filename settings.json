@@ -1,0 +1,25 @@
+{
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": "all",
+    "git.autofetchPeriod": 60,
+    "git.fetchOnPull": true,
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "githubPullRequests.pullBranch": "never",
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
+    },
+    "azureResourceManagerTools.parameterFiles": {
+        "c:\\vscode\\customers\\dplh\\azure-monitor-baseline-alerts\\patterns\\alz\\alzarm.json": "alzarm.param.json",
+        "c:\\vscode\\insight\\azure-openai-landing-zone\\src2\\main.json": "main.parameters.json"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "darkriszty.markdown-table-prettify"
+    },
+    "markdownlint.config": {
+        "line_length": false
+    }
+}
