@@ -20,6 +20,6 @@
         "editor.defaultFormatter": "darkriszty.markdown-table-prettify"
     },
     "markdownlint.config": {
-        "line_length": false
+        "md013": false
     }
 }
