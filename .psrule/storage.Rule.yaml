@@ -1,0 +1,13 @@
+---
+# Synopsis: Suppress rules for data replication
+apiVersion: github.com/microsoft/PSRule/v1
+kind: SuppressionGroup
+metadata:
+  name: Insight.Storage.DataReplication.Ignore
+spec:
+  rule:
+    - Azure.Storage.UseReplication
+  if:
+    type: '.'
+    in:
+      - 'Microsoft.Storage/storageAccounts'

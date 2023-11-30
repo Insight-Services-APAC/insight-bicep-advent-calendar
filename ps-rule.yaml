@@ -1,0 +1,68 @@
+# Use rules from the following modules. - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#includemodule
+include:
+  module:
+    - PSRule.Rules.Azure
+    - PSRule.Rules.CAF
+
+# Require a minimum version of modules that include referenced baseline. - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#requires
+requires:
+  PSRule: "@pre >=2.3.2"
+  PSRule.Rules.Azure: "@pre >=1.18.1"
+
+# Reference the repository in output (Change this to your GitHub Repo) - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#repositoryurl
+repository:
+  url: https://github.com/Insight-Services-APAC/insight-bicep-advent-calendar
+
+execution:
+  # Ignore warnings for resources and objects that don't have any rules. - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#executionunprocessedobject
+  unprocessedObject: Ignore
+
+# Define baseline configuration - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#configuration
+configuration:
+  # Enable expansion for Bicep source files.
+  AZURE_BICEP_FILE_EXPANSION: true
+
+  # Expand Bicep module from Azure parameter files.
+  AZURE_PARAMETER_FILE_EXPANSION: true
+
+  # Set timeout for expanding Bicep source files.
+  AZURE_BICEP_FILE_EXPANSION_TIMEOUT: 45
+
+  # Set allowed locations for resources.
+  AZURE_RESOURCE_ALLOWED_LOCATIONS:
+    - australiaeast
+
+  # Set allowed locations for resource groups.
+  AZURE_RESOURCE_GROUP:
+    location: australiaeast
+
+input:
+  # Ignore common files that don't need analysis. - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#inputpathignore
+  pathIgnore:
+    - "**/bicepconfig.json"
+    - "*.yaml"
+    - "*.yml"
+    - "*.md"
+    - "*.ps1"
+    - "*.png"
+    - ".github/"
+    - "src/modules/CARML/"
+
+binding:
+  # When binding has been configured these values override automatic binding by default - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#bindingprefertargetinfo
+  preferTargetInfo: true
+  # When an object is passed from the pipeline, PSRule assigns the object a TargetType. TargetType is used to filter rules based on object type and appears in output results. - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#bindingtargettype
+  targetType:
+    - resourceType
+    - type
+
+rule:
+  # Exclude specific rules from being validated. - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#ruleexclude
+  exclude:
+    - Azure.Resource.UseTags # Tags deployed via templates.
+    - Azure.NSG.LateralTraversal
+    - Azure.Storage.UseReplication # Storage replication is not required for all storage accounts as only a single region is used.
+
+output:
+  # Using the output/culture property. - https://microsoft.github.io/PSRule/v2/concepts/PSRule/en-US/about_PSRule_Options/#outputculture
+  culture: ["en-AU", "en-US"]
