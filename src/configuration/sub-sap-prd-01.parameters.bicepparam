@@ -1,7 +1,7 @@
 using '../orchestration/main.bicep'
 
-param existingSubscriptionId = 'a50d2a27-93d9-43b1-957c-2a663ffaf37f' // Subscription ID of the existing subscription
-param subscriptionMgPlacement = 'mg-alz-landingzones-corp' // Management Group ID that the Subscription will be placed under
+param existingSubscriptionId = '' // Subscription ID of the existing subscription
+param subscriptionMgPlacement = '' // Management Group ID that the Subscription will be placed under
 param lzPrefix = 'sap' // Landing Zone prefix
 param envPrefix = 'prd'  // environment prefix
 param roleAssignments = []
@@ -13,7 +13,7 @@ param tags = {    // Required Tags
     contactEmail: 'test@outlook.com'
     dataClassification: 'Internal'
 }
-param budgets = [ // Budget info
+param budgets = [ // Azure Budget info
     {
         amount: 500
         startDate: '2023-12-01'
@@ -34,13 +34,12 @@ param virtualNetworkPeeringEnabled = false // Virtual Network Peering Enabled
 param allowHubVpnGatewayTransit = false // Allow Hub Vpn Gateway Transit
 //param nextHopIpAddress = '' // Next Hop IP Address to Firewall
 param addressPrefixes = '10.15.0.0/24' // Address Prefixes for the Virtual Network
-param subnets = [ // Subnets for the Virtual Network
+param subnets = [ // Subnet Array for the Virtual Network
     {
         name: 'app'
         addressPrefix: '10.15.0.0/27'
         networkSecurityGroupName: 'nsg-syd-sap-prd-app'
         securityRules: []
-        enableRouteTable: true
         routeTableName: 'udr-syd-sap-prd-app'
         routes: []
         serviceEndpoints: []
@@ -53,7 +52,6 @@ param subnets = [ // Subnets for the Virtual Network
         addressPrefix: '10.15.0.32/27'
         networkSecurityGroupName: 'nsg-syd-sap-prd-db'
         securityRules: []
-        enableRouteTable: true
         routeTableName: 'udr-syd-sap-prd-db'
         routes: []
         serviceEndpoints: []
