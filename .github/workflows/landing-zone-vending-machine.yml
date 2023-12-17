@@ -12,8 +12,8 @@ on:
   workflow_dispatch: {}
 
 env:
-  managementGroupId: ''
-  location: 'australiaeast'
+  managementGroupId: ${{ vars.MANAGEMENT_GROUP_ID }}
+  location: ${{ vars.LOCATION }}
   moduleName: LandingZoneVendingMachine
   templateFile: src/orchestration/main.bicep
   templateParameterFile: src/configuration/sub-sap-prd-01.parameters.bicepparam
