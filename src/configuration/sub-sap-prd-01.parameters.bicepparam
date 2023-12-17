@@ -32,7 +32,7 @@ param actionGroupEmails = [ // Action Group Email(s)
 //param hubVirtualNetworkId = '' // Hub Virtual Network ID
 param virtualNetworkPeeringEnabled = false // Virtual Network Peering Enabled
 param allowHubVpnGatewayTransit = false // Allow Hub Vpn Gateway Transit
-//param nextHopIpAddress = '' // Next Hop IP Address to Firewall
+param nextHopIpAddress = '1.1.1.1' // Next Hop IP Address to Firewall (if applicable)
 param addressPrefixes = '10.15.0.0/24' // Address Prefixes for the Virtual Network
 param subnets = [ // Subnet Array for the Virtual Network
     {

@@ -56,10 +56,10 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-04-01' = {
       properties: {
         addressPrefix: subnet.addressPrefix
         addressPrefixes: []
-        networkSecurityGroup: (!empty(subnet.name)) ? {
+        networkSecurityGroup: (!empty(subnet.networkSecurityGroupName)) ? {
           id: resourceId('Microsoft.Network/networkSecurityGroups', '${subnet.networkSecurityGroupName}')
         } : null
-        routeTable: (!empty(subnet.name) && subnet.enableRouteTable) ? {
+        routeTable: (!empty(subnet.routeTableName)) ? {
           id: resourceId('Microsoft.Network/routeTables', '${subnet.routeTableName}')
         } : null
         delegations: subnet.delegations
@@ -77,7 +77,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-04-01' = {
 }
 
 // Module: Route Table
-module routeTable '../CARML/network/route-table/main.bicep' = [for (subnet, i) in subnets: if (!empty(nextHopIPAddress)) {
+module routeTable '../CARML/network/route-table/main.bicep' = [for (subnet, i) in subnets: if (!empty(nextHopIPAddress) && (!empty(subnet.routeTableName))) {
   name: 'rt-${i}'
   scope: resourceGroup()
   params: {
@@ -91,7 +91,7 @@ module routeTable '../CARML/network/route-table/main.bicep' = [for (subnet, i) i
 }]
 
 // Module: Network Security Group
-module networkSecurityGroup '../CARML/network/network-security-group/main.bicep' = [for (subnet, i) in subnets: {
+module networkSecurityGroup '../CARML/network/network-security-group/main.bicep' = [for (subnet, i) in subnets: if (!empty(subnet.networkSecurityGroupName)) {
   name: 'nsg-${i}'
   scope: resourceGroup()
   params: {
