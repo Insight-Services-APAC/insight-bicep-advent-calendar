@@ -70,7 +70,7 @@ jobs:
         uses: Azure/cli@v1.0.7
         with:
           inlineScript: |
-            az bicep build -f ./src/main.bicep --stdout
+            az bicep build -f ./src/orchestration/main.bicep --stdout
 
       - name: Copy Files for Artifact Upload
         run: rsync -av --exclude='build' --exclude={'.vscode/','.ps-rule/','.ps-docs/','*.md'} ./. ./build
@@ -96,7 +96,7 @@ jobs:
       location: ${{ vars.LOCATION }}
       managementGroupId: ${{ vars.MANAGEMENT_GROUP_ID }}
       templateFile: ./src/orchestration/main.bicep
-      templateParameterFile: ./src/configuration/sub-sap-prd-01.parameters.bicepparam
+      templateParameterFile: ./src/configuration/parameters.bicepparam
       moduleName: 'sub-sap-prd-01'
     secrets:
       # Environment variables are not supported with caller workflows. You must use repository secrets.
