@@ -17,7 +17,7 @@ This module deploys a Resource Tag on a Subscription scope.
 
 ## Parameters
 
-### Optional parameters
+### Optional parameter
 
 | Parameter                                                     | Type   | Description                                                               |
 | :------------------------------------------------------------ | :----- | :------------------------------------------------------------------------ |
