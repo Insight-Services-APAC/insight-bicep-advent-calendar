@@ -1,0 +1,2 @@
+---
+  "resourceGroups": ["ascExportRG", "alertsRG", "networkWatcherRG"]

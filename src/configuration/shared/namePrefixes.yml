@@ -1,5 +1,5 @@
 ---
-"resourceGroup": "arg"
-"networkSecurityGroup": "nsg"
-"virtualNetwork": "vnt"
-"routeTable": "udr"
+'resourceGroup': 'arg'
+'networkSecurityGroup': 'nsg'
+'virtualNetwork': 'vnt'
+'routeTable': 'udr'

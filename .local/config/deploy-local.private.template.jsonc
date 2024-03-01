@@ -1,0 +1,23 @@
+{
+  "Me": {
+    "Name": "<Your Name>",
+    "Email": "<Your Email>",
+    "Initials": "<Your Initials>"
+  },
+  "PermissionLevels": ["Tenant", "ManagementGroup", "Subscription", "ResourceGroup"],
+  "TenantId": "<Tenant ID>",
+  "ManagementGroupId": "<Management Group ID>",
+  "SubscriptionId": "<Subscription ID>",
+  "AzureRegion": "australiaeast",
+  "ConfigurationFiles": {
+    "example": "../../src/configuration/sub-sap-prd-01.parameters.bicepparam"
+  },
+  "ParameterOverrides": {
+    "lzPrefix": "lctst", // Change this to your initials or something that will be unique for your deployment
+    "isManagementGroupDeployment": false
+  },
+  "flags": {
+    "deploymentKeyVault": false
+  },
+  "StaticSecrets": {}
+}

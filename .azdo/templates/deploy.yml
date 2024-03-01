@@ -1,0 +1,73 @@
+parameters:
+  - name: serviceConnection
+    type: string
+  - name: environment
+    type: string
+  - name: templateFile
+    type: string
+  - name: templateParameterFile
+    type: string
+  - name: managementGroupId
+    type: string
+  - name: location
+    type: string
+  - name: workingDirectory
+    type: string
+
+stages:
+  - stage: Deploy_${{ parameters.environment }}
+    displayName: Deploy ${{ parameters.environment }}
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - deployment: Deployment
+        displayName: Deploy ${{ replace(split(parameters.templateParameterFile, '/')[3], '.parameters.bicepparam', '') }}
+        environment: ${{ parameters.environment }}
+        variables:
+          - name: sourceDirectory
+            value: '$(Pipeline.Workspace)/${{ parameters.workingDirectory }}/s'
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                # Set Partner Admin Link (PAL)
+                - task: AzureCLI@2
+                  displayName: Set PAL
+                  inputs:
+                    azureSubscription: ${{ parameters.serviceConnection }}
+                    scriptType: pscore
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      az extension add --name managementpartner
+                      az managementpartner update --partner-id 1158331 || az managementpartner create --partner-id 1158331
+
+                # Deployment
+                - task: AzureCLI@2
+                  displayName: 'AzCLI: Create Management Group Deployment'
+                  enabled: true
+                  continueOnError: false
+                  inputs:
+                    azureSubscription: ${{ parameters.serviceConnection }}
+                    scriptType: pscore
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      echo "Deploying to Management Group: ${{ parameters.managementGroupId }}"
+                      echo "Deploying to Location: ${{ parameters.location }}"
+                      echo "Deploying Template: ${{ parameters.templateFile }}"
+                      echo "Deploying Parameters: ${{ parameters.templateParameterFile }}"
+
+                      $templateFilePath = Join-Path -Path '$(sourceDirectory)' -ChildPath '${{ parameters.templateFile }}'
+                      $parametersFilePath = Join-Path -Path '$(sourceDirectory)' -ChildPath '${{ parameters.templateParameterFile }}'
+                      $deploymentName = ('$(Build.BuildNumber)').replace(' ', '_')
+
+                      echo "Deployment name: $deploymentName`r`n"
+
+                      az deployment mg create `
+                      --name $deploymentName `
+                      --location '${{ parameters.location }}' `
+                      --management-group-id '${{ parameters.managementGroupId }}' `
+                      --template-file $templateFilePath `
+                      --parameters $parametersFilePath
+
+                    powerShellErrorActionPreference: 'stop'
