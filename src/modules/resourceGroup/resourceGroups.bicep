@@ -4,13 +4,13 @@ metadata name = 'ALZ Bicep - Resource Group module'
 metadata description = 'module used to create multiple Resource Groups for Azure Landing Zones'
 metadata author = 'Insight APAC Platform Engineering'
 
-@sys.description('An array of Resource Group Names.')
+@description('An array of Resource Group Names.')
 param resourceGroupNames array = []
 
-@sys.description('Azure Region where Resource Group will be created.')
+@description('Azure Region where Resource Group will be created.')
 param location string
 
-@sys.description('Tags you would like to be applied to all resources in this module.')
+@description('Tags you would like to be applied to all resources in this module.')
 param tags object = {}
 
 // Resource: Resource Groups

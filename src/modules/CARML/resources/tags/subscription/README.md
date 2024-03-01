@@ -4,78 +4,67 @@ This module deploys a Resource Tag on a Subscription scope.
 
 ## Navigation
 
-- [Resource Types](#Resource-Types)
-- [Parameters](#Parameters)
-- [Outputs](#Outputs)
-- [Cross-referenced modules](#Cross-referenced-modules)
+- [Resource Types](#resource-types)
+- [Parameters](#parameters)
+- [Outputs](#outputs)
+- [Cross-referenced modules](#cross-referenced-modules)
 
 ## Resource Types
 
-| Resource Type | API Version |
-| :-- | :-- |
+| Resource Type              | API Version                                                                                         |
+| :------------------------- | :-------------------------------------------------------------------------------------------------- |
 | `Microsoft.Resources/tags` | [2021-04-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Resources/2021-04-01/tags) |
 
 ## Parameters
 
-**Optional parameters**
+### Optional parameter
 
-| Parameter Name | Type | Default Value | Description |
-| :-- | :-- | :-- | :-- |
-| `enableDefaultTelemetry` | bool | `True` | Enable telemetry via a Globally Unique Identifier (GUID). |
-| `location` | string | `[deployment().location]` | Location deployment metadata. |
-| `onlyUpdate` | bool | `False` | Instead of overwriting the existing tags, combine them with the new tags. |
-| `tags` | object | `{object}` | Tags for the resource group. If not provided, removes existing tags. |
+| Parameter                                                     | Type   | Description                                                               |
+| :------------------------------------------------------------ | :----- | :------------------------------------------------------------------------ |
+| [`enableDefaultTelemetry`](#parameter-enabledefaulttelemetry) | bool   | Enable telemetry via a Globally Unique Identifier (GUID).                 |
+| [`location`](#parameter-location)                             | string | Location deployment metadata.                                             |
+| [`onlyUpdate`](#parameter-onlyupdate)                         | bool   | Instead of overwriting the existing tags, combine them with the new tags. |
+| [`tags`](#parameter-tags)                                     | object | Tags for the resource group. If not provided, removes existing tags.      |
 
+### Parameter: `enableDefaultTelemetry`
 
-### Parameter Usage: `tags`
+Enable telemetry via a Globally Unique Identifier (GUID).
 
-Tag names and tag values can be provided as needed. A tag can be left without a value.
+- Required: No
+- Type: bool
+- Default: `True`
 
-<details>
+### Parameter: `location`
 
-<summary>Parameter JSON format</summary>
+Location deployment metadata.
 
-```json
-"tags": {
-    "value": {
-        "Environment": "Non-Prod",
-        "Contact": "test.user@testcompany.com",
-        "PurchaseOrder": "1234",
-        "CostCenter": "7890",
-        "ServiceName": "DeploymentValidation",
-        "Role": "DeploymentValidation"
-    }
-}
-```
+- Required: No
+- Type: string
+- Default: `[deployment().location]`
 
-</details>
+### Parameter: `onlyUpdate`
 
-<details>
+Instead of overwriting the existing tags, combine them with the new tags.
 
-<summary>Bicep format</summary>
+- Required: No
+- Type: bool
+- Default: `False`
 
-```bicep
-tags: {
-    Environment: 'Non-Prod'
-    Contact: 'test.user@testcompany.com'
-    PurchaseOrder: '1234'
-    CostCenter: '7890'
-    ServiceName: 'DeploymentValidation'
-    Role: 'DeploymentValidation'
-}
-```
+### Parameter: `tags`
 
-</details>
-<p>
+Tags for the resource group. If not provided, removes existing tags.
+
+- Required: No
+- Type: object
 
 ## Outputs
 
-| Output Name | Type | Description |
-| :-- | :-- | :-- |
-| `name` | string | The name of the tags resource. |
+| Output       | Type   | Description                          |
+| :----------- | :----- | :----------------------------------- |
+| `name`       | string | The name of the tags resource.       |
 | `resourceId` | string | The resource ID of the applied tags. |
-| `tags` | object | The applied tags. |
+| `tags`       | object | The applied tags.                    |
 
 ## Cross-referenced modules
 
-_None_
+- _None_

@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    /***********************
+        Full deployment
+    **********************/
+    {
+      "name": "Deploy Landing Zone",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/.local/Deploy-Local.ps1",
+      "args": ["-Verbose -Confirm:$false -Orchestration Main"],
+      "cwd": "${workspaceFolder}",
+      "presentation": {
+        "hidden": false,
+        "group": "1. Run Project",
+        "order": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# Environment Setup
+
+An environment is a collection of resources that you can target with deployments from a pipeline. The environment names for Azure Landing Zone Vending Machine is just `Production`. This would change based on each landing zones needs.
+
+Environment Approvals and Checks for the Azure Data Vending Machine
+
+| Environment    | Subscription Vending     | Approvals and Checks                                            |
+| -------------- | ------------------------ | --------------------------------------------------------------- |
+| **Production** | _Example SAP Production_ | Branch Control to only allow deployment from the `Main` branch. |
+
+## Supported Azure Regions
+
+All Azure Regions are supported for this solution.
