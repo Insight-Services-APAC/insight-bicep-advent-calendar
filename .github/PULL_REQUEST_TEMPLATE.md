@@ -1,26 +1,31 @@
-<!-- Thank you for submitting a Pull Request. Please fill out the template below.-->
-# Overview/Summary
+# Pull Request Template
 
-Replace this with a brief description of what this Pull Request fixes, changes, etc.
+## Description
 
-## This PR fixes/adds/changes/removes
+Please provide a brief description of the changes in this pull request.
 
-1. *Replace me*
-2. *Replace me*
-3. *Replace me*
+## Type of Change
 
-### Breaking Changes
+Please select the type of change this pull request represents:
 
-1. *Replace me*
-2. *Replace me*
+- [ ] 🪲 Bug Fix
+- [ ] 🤩 Improvement to the IP
+- [ ] 📝 Adding a feature
 
-## Testing Evidence
+## Checklist
 
-Replace this with any testing evidence to show that your Pull Request works/fixes as described and planned (include screenshots, if appropriate).
+Please review and check the following items before submitting this pull request:
 
-## As part of this Pull Request I have
+- [ ] Code has been tested locally
+- [ ] Documentation has been updated (if applicable)
+- [ ] All tests pass
+- [ ] No new linting errors
+- [ ] Follows the coding style guidelines
 
-- [ ] Checked for duplicate `Pull Requests`
-- [ ] Ensured my code/branch is up-to-date with the latest changes in the `main`
-- [ ] Performed testing and provided evidence.
-- [ ] Updated relevant and associated documentation.
+## Related Issues
+
+Please list any related issues or pull requests that are addressed by this pull request.
+
+## Additional Notes
+
+Please provide any additional notes or context regarding this pull request.

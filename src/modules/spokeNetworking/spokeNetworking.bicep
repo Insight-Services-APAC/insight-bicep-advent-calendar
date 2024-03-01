@@ -2,31 +2,31 @@ metadata name = 'ALZ Bicep - Spoke networking module'
 metadata description = 'module used to create a spoke virtual network, including virtual network, subnets, NSGs and route tables'
 metadata author = 'Insight APAC Platform Engineering'
 
-@sys.description('The Azure Region to deploy the resources into.')
+@description('The Azure Region to deploy the resources into.')
 param location string = resourceGroup().location
 
-@sys.description('Tags that will be applied to all resources in this module.')
+@description('Tags that will be applied to all resources in this module.')
 param tags object = {}
 
-@sys.description('The Name of the Spoke Virtual Network.')
+@description('The Name of the Spoke Virtual Network.')
 param spokeNetworkName string = 'vnet-spoke'
 
-@sys.description('The IP address range for the virtual network.')
+@description('The IP address range for the virtual network.')
 param addressPrefixes string = '10.11.0.0/16'
 
-@sys.description('DdosProtectionPlan Id which will be applied to the Virtual Network.')
+@description('DdosProtectionPlan Id which will be applied to the Virtual Network.')
 param ddosProtectionPlanId string = ''
 
-@sys.description('Array of DNS Server IP addresses for VNet.')
+@description('Array of DNS Server IP addresses for VNet.')
 param dnsServerIps array = []
 
-@sys.description('The subnet values for each subnet in the virtual network.')
+@description('The subnet values for each subnet in the virtual network.')
 param subnets array = []
 
-@sys.description('Switch which allows BGP Propagation to be disabled on the route tables.')
+@description('Switch which allows BGP Propagation to be disabled on the route tables.')
 param disableBGPRoutePropagation bool = false
 
-@sys.description('Next hop IP address where network traffic should route to leveraged with DNS Proxy.')
+@description('Next hop IP address where network traffic should route to leveraged with DNS Proxy.')
 param nextHopIPAddress string = ''
 
 var sharedRoutes = loadYamlContent('../../configuration/shared/routes.yml').routes
@@ -77,16 +77,14 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-04-01' = {
 }
 
 // Module: Route Table
-module routeTable '../CARML/network/route-table/main.bicep' = [for (subnet, i) in subnets: if (!empty(nextHopIPAddress) && (!empty(subnet.routeTableName))) {
-  name: 'rt-${i}'
-  scope: resourceGroup()
+module routeTable 'br/public:avm/res/network/route-table:0.2.0' = [for (subnet, i) in subnets: if (!empty(nextHopIPAddress) && (!empty(subnet.routeTableName))) {
+  name: 'routeTable-${i}'
   params: {
     name: subnet.routeTableName
     location: location
     tags: tags
-        routes: concat(sharedRoutes, subnet.routes)
+    routes: concat(sharedRoutes, subnet.routes)
     disableBgpRoutePropagation: disableBGPRoutePropagation
-
   }
 }]
 
@@ -97,7 +95,7 @@ module networkSecurityGroup '../CARML/network/network-security-group/main.bicep'
   params: {
     name: subnet.networkSecurityGroupName
     location: location
-    securityRules: concat(sharedNSGrulesInbound, subnet.securityRules, sharedNSGrulesOutbound)
+    securityRules: concat(sharedNSGrulesInbound, sharedNSGrulesOutbound, subnet.securityRules)
     tags: tags
   }
 }]

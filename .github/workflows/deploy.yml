@@ -1,0 +1,76 @@
+---
+name: Deploy
+
+on:
+  workflow_call:
+    inputs:
+      artifactName:
+        required: true
+        type: string
+        default: artifact
+      environmentName:
+        required: true
+        type: string
+      location:
+        required: true
+        type: string
+      managementGroupId:
+        required: true
+        type: string
+      templateFile:
+        required: true
+        type: string
+      templateParameterFile:
+        required: true
+        type: string
+      moduleName:
+        required: true
+        type: string
+    secrets:
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_CLIENT_SECRET:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: ${{ inputs.moduleName }}
+    environment: ${{ inputs.environmentName }}
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - name: Download Artifact from Build Job
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifactName }}
+
+      - name: Az Login
+        uses: azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+          enable-AzPSSession: true
+
+      # What-If Deployment
+      - name: What-If Deployment
+        uses: Azure/cli@v1.0.9
+        with:
+          inlineScript: |
+            az deployment mg What-If -n "${{ inputs.moduleName }}-${{ github.run_number }}" -m ${{ inputs.managementGroupId }} -l ${{ inputs.location }} -f ${{ inputs.templateFile }} -p ${{ inputs.templateParameterFile }} -x Ignore NoChange Unsupported -r FullResourcePayloads
+
+      # Create Deployment
+      - name: Create Deployment
+        uses: Azure/cli@v1.0.9
+        with:
+          inlineScript: |
+            az deployment mg create -n '${{ inputs.moduleName }}-${{ github.run_number }}' -m ${{ inputs.managementGroupId }} -l ${{ inputs.location }} -f ${{ inputs.templateFile }} -p ${{ inputs.templateParameterFile }}
+
+      # Log out of Azure
+      - name: Az Logout
+        run: az logout

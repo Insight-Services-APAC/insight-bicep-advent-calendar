@@ -1,6 +1,0 @@
-{
-    "resourceGroups": [
-        "alertsRG",
-        "networkWatcherRG"
-    ]
-}
