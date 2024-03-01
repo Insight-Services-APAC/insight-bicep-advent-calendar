@@ -1,0 +1,24 @@
+
+# Private JSON config file
+*.private.json
+*.private.jsonc
+
+# Locally built bicep files
+.local/build
+.local/build/*.json
+
+# Visual Studio Solution
+.vs
+cert.pfx
+bin
+obj
+
+# Locally testing configuration files
+src/configuration/temp
+src/configuration/temp/*
+
+# Visio Diagrams when open
+*.~vsdx
+
+# MAC OS
+.DS_store

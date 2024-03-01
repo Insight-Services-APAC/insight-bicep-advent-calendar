@@ -67,18 +67,12 @@
         "sourcePortRange": "*",
         "sourcePortRanges": [],
         "destinationPortRange": "",
-        "destinationPortRanges": [
-          "1688"
-        ],
+        "destinationPortRanges": ["1688"],
         "sourceAddressPrefix": "*",
         "sourceAddressPrefixes": [],
         "sourceApplicationSecurityGroupIds": [],
         "destinationAddressPrefix": "",
-        "destinationAddressPrefixes": [
-          "20.118.99.224/32",
-          "40.83.235.53/32",
-          "23.102.135.246/32"
-        ],
+        "destinationAddressPrefixes": ["20.118.99.224/32", "40.83.235.53/32", "23.102.135.246/32"],
         "destinationApplicationSecurityGroupIds": [],
         "access": "Allow",
         "priority": 1200,

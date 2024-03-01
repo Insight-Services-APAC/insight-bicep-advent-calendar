@@ -1,0 +1,52 @@
+---
+name: Respository Management
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: repository-managements
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  # This job is used to update the repository's wiki.
+  wiki:
+    name: 'Publish wiki from docs/wiki'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: spenserblack/actions-wiki@v0.3.0
+        with:
+          path: docs/wiki
+
+  # This job is used to update and close out stale pull requests.
+  stale:
+    name: 'Mark stale pull requests'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark Stale Pull Requests
+        uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-pr-stale: 14
+          days-before-pr-close: 365
+          stale-pr-label: inactive
+          close-pr-label: auto-close
+          exempt-pr-labels: keep-open
+          stale-pr-message: >
+            This pull request has been inactive for 14 days.
+            If you are finished with your changes, don't forget to sign off.
+
+            Insight Platform Engineering Team
+          close-pr-message: >
+            This pull request has been inactive for 14 days. At this time, we are closing the PR. 
+            If you decide to continue working on your change, you can reopen the PR and continue working. Thank you!
+
+            Insight Platform Engineering Team

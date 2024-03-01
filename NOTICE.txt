@@ -1,0 +1,52 @@
+NOTICES AND INFORMATION
+Do Not Translate or Localize
+
+This software incorporates material from third parties. Insight makes certain
+open source code available at https://github.com/Insight-Services-APAC.
+
+Notwithstanding any other terms, you may reverse engineer this software to the
+extent required to debug changes to any libraries licensed under the GNU Lesser
+General Public License.
+________________________
+
+This product contains modified scripts from the works of gbrueckl:
+
+    * LICENSE:
+      * https://github.com/gbrueckl/Databricks.API.PowerShell/blob/master/LICENSE
+    * REPO:
+      * https://github.com/gbrueckl/Databricks.API.PowerShell/
+
+This product uses Azure Bicep templates from the Resource Modules library:
+
+    * LICENSE:
+      * https://github.com/Azure/ResourceModules/blob/main/LICENSE
+    * REPO:
+      * https://github.com/Azure/ResourceModules
+
+This product uses PSRule for Infrastructure as code validation:
+
+    * LICENSE:
+      * https://github.com/microsoft/PSRule/blob/main/LICENSE
+    * REPO:
+      * https://github.com/microsoft/PSRule
+
+This product uses PSRule.Rules.Azure for Infrastructure as code validation for Microsoft CAF and WAR standards:
+
+    * LICENSE:
+      * https://github.com/Azure/PSRule.Rules.Azuree/blob/main/LICENSE
+    * REPO:
+      * https://github.com/Azure/PSRule.Rules.Azure
+
+This product uses PSDocs for Infrastructure as code documentation creation:
+
+    * LICENSE:
+      * https://github.com/microsoft/PSDocs/blob/main/LICENSE
+    * REPO:
+      * https://github.com/microsoft/PSDocs
+
+This product is originally based off Microsoft's Cloud Data Analytics platform 
+
+    * LICENSE: 
+      * https://github.com/Azure/data-product-analytics/blob/main/LICENSE
+    * REPO 
+      * https://github.com/Azure/data-product-analytics
