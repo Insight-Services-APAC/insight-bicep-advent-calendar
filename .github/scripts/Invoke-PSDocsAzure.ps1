@@ -3,7 +3,7 @@ Import-Module PSDocs.Azure
 
 # Bicep modules to create docs for in an array
 $bicepModulesToBuild = @(
-    './src/main.bicep'
+    './src/orchestration/main.bicep'
 )
 
 # Bicep build the files in the array above and add newly created ARM/JSON files to new array for doc creations
@@ -33,7 +33,7 @@ Get-AzDocTemplateFile -InputPath $docsToGenerate | ForEach-Object {
     # $jobj = ConvertFrom-Json -InputObject $templateraw
 
     if ($docName -eq 'main') {
-        $docOutputPath = "src/"
+        $docOutputPath = "src/orchestration/"
         $docName = "README"
     }
 
