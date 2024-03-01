@@ -12,8 +12,8 @@ This module deploys a Resource Tag at a Subscription or Resource Group scope.
 
 ## Resource Types
 
-| Resource Type | API Version |
-| :-- | :-- |
+| Resource Type              | API Version                                                                                         |
+| :------------------------- | :-------------------------------------------------------------------------------------------------- |
 | `Microsoft.Resources/tags` | [2021-04-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Resources/2021-04-01/tags) |
 
 ## Usage examples
@@ -180,14 +180,14 @@ module tags 'br:bicep/modules/resources.tags:1.0.0' = {
 
 ### Optional Parameters
 
-| Parameter | Type | Description |
-| :-- | :-- | :-- |
-| [`enableDefaultTelemetry`](#parameter-enabledefaulttelemetry) | bool | Enable telemetry via a Globally Unique Identifier (GUID). |
-| [`location`](#parameter-location) | string | Location deployment metadata. |
-| [`onlyUpdate`](#parameter-onlyupdate) | bool | Instead of overwriting the existing tags, combine them with the new tags. |
-| [`resourceGroupName`](#parameter-resourcegroupname) | string | Name of the Resource Group to assign the tags to. If no Resource Group name is provided, and Subscription ID is provided, the module deploys at subscription level, therefore assigns the provided tags to the subscription. |
-| [`subscriptionId`](#parameter-subscriptionid) | string | Subscription ID of the subscription to assign the tags to. If no Resource Group name is provided, the module deploys at subscription level, therefore assigns the provided tags to the subscription. |
-| [`tags`](#parameter-tags) | object | Tags for the resource group. If not provided, removes existing tags. |
+| Parameter                                                     | Type   | Description                                                                                                                                                                                                                  |
+| :------------------------------------------------------------ | :----- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`enableDefaultTelemetry`](#parameter-enabledefaulttelemetry) | bool   | Enable telemetry via a Globally Unique Identifier (GUID).                                                                                                                                                                    |
+| [`location`](#parameter-location)                             | string | Location deployment metadata.                                                                                                                                                                                                |
+| [`onlyUpdate`](#parameter-onlyupdate)                         | bool   | Instead of overwriting the existing tags, combine them with the new tags.                                                                                                                                                    |
+| [`resourceGroupName`](#parameter-resourcegroupname)           | string | Name of the Resource Group to assign the tags to. If no Resource Group name is provided, and Subscription ID is provided, the module deploys at subscription level, therefore assigns the provided tags to the subscription. |
+| [`subscriptionId`](#parameter-subscriptionid)                 | string | Subscription ID of the subscription to assign the tags to. If no Resource Group name is provided, the module deploys at subscription level, therefore assigns the provided tags to the subscription.                         |
+| [`tags`](#parameter-tags)                                     | object | Tags for the resource group. If not provided, removes existing tags.                                                                                                                                                         |
 
 ### Parameter: `enableDefaultTelemetry`
 
@@ -238,11 +238,11 @@ Tags for the resource group. If not provided, removes existing tags.
 
 ## Outputs
 
-| Output | Type | Description |
-| :-- | :-- | :-- |
-| `name` | string | The name of the tags resource. |
+| Output       | Type   | Description                          |
+| :----------- | :----- | :----------------------------------- |
+| `name`       | string | The name of the tags resource.       |
 | `resourceId` | string | The resource ID of the applied tags. |
-| `tags` | object | The applied tags. |
+| `tags`       | object | The applied tags.                    |
 
 ## Cross-referenced modules
 

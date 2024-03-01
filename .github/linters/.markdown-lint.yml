@@ -42,7 +42,8 @@ MD013:
 MD026:
   punctuation: ".,;:!。，；:" # List of not allowed
 MD029: false # Ordered list item prefix
-MD033: false # Allow inline HTML
+MD033:
+  allowed_elements: [Element: details, Element: summary] # Allow details and summary tags
 MD036: false # Emphasis used instead of a heading
 MD053: false # Super Linter broke this in v4.9.5
 
