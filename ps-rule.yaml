@@ -20,10 +20,6 @@ requires:
   PSRule: '@pre >=2.3.2'
   PSRule.Rules.Azure: '@pre >=1.18.1'
 
-# Reference the repository in output.
-repository:
-  url: https://github.com/Insight-Services-APAC/azure-landing-zones-vending-machine
-
 execution:
   # Ignore warnings for resources and objects that don't have any rules.
   unprocessedObject: Ignore

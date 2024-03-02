@@ -14,9 +14,6 @@ on:
       location:
         required: true
         type: string
-      managementGroupId:
-        required: true
-        type: string
       templateFile:
         required: true
         type: string
@@ -62,14 +59,14 @@ jobs:
         uses: Azure/cli@v1.0.9
         with:
           inlineScript: |
-            az deployment mg What-If -n "${{ inputs.moduleName }}-${{ github.run_number }}" -m ${{ inputs.managementGroupId }} -l ${{ inputs.location }} -f ${{ inputs.templateFile }} -p ${{ inputs.templateParameterFile }} -x Ignore NoChange Unsupported -r FullResourcePayloads
+            az deployment sub What-If -n "${{ inputs.moduleName }}-${{ github.run_number }}" -l ${{ inputs.location }} -f ${{ inputs.templateFile }} -p ${{ inputs.templateParameterFile }} -x Ignore NoChange Unsupported -r FullResourcePayloads
 
       # Create Deployment
       - name: Create Deployment
         uses: Azure/cli@v1.0.9
         with:
           inlineScript: |
-            az deployment mg create -n '${{ inputs.moduleName }}-${{ github.run_number }}' -m ${{ inputs.managementGroupId }} -l ${{ inputs.location }} -f ${{ inputs.templateFile }} -p ${{ inputs.templateParameterFile }}
+            az deployment sub create -n '${{ inputs.moduleName }}-${{ github.run_number }}' -l ${{ inputs.location }} -f ${{ inputs.templateFile }} -p ${{ inputs.templateParameterFile }}
 
       # Log out of Azure
       - name: Az Logout
