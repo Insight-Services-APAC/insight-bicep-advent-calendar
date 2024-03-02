@@ -1,0 +1,25 @@
+{
+  "folders": [
+    {
+      "path": "./",
+      "name": "Azure Landing Zone - Vending Machine"
+    },
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      ".idea": true
+    },
+    "powershell.codeFormatting.autoCorrectAliases": true,
+    "powershell.codeFormatting.newLineAfterCloseBrace": false,
+    "powershell.codeFormatting.preset": "Stroustrup",
+    "powershell.cwd": "Azure Landing Zones",
+    "[bicep]": {
+      "editor.defaultFormatter": "ms-azuretools.vscode-bicep"
+    }
+  }
+}
