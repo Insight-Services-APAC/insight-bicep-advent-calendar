@@ -16,16 +16,6 @@ permissions:
   pull-requests: write
 
 jobs:
-  # This job is used to update the repository's wiki.
-  wiki:
-    name: 'Publish wiki from docs/wiki'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: spenserblack/actions-wiki@v0.3.0
-        with:
-          path: docs/wiki
-
   # This job is used to update and close out stale pull requests.
   stale:
     name: 'Mark stale pull requests'
@@ -50,3 +40,4 @@ jobs:
             If you decide to continue working on your change, you can reopen the PR and continue working. Thank you!
 
             Insight Platform Engineering Team
+
