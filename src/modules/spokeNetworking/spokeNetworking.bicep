@@ -59,7 +59,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-04-01' = {
         networkSecurityGroup: (!empty(subnet.networkSecurityGroupName)) ? {
           id: resourceId('Microsoft.Network/networkSecurityGroups', '${subnet.networkSecurityGroupName}')
         } : null
-        routeTable: (!empty(subnet.routeTableName)) ? {
+        routeTable: (!empty(subnet.routeTableName) && !empty(nextHopIPAddress)) ? {
           id: resourceId('Microsoft.Network/routeTables', '${subnet.routeTableName}')
         } : null
         delegations: subnet.delegations
@@ -77,7 +77,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-04-01' = {
 }
 
 // Module: Route Table
-module routeTable 'br/public:avm/res/network/route-table:0.2.0' = [for (subnet, i) in subnets: if (!empty(nextHopIPAddress) && (!empty(subnet.routeTableName))) {
+module routeTable 'br/public:avm/res/network/route-table:0.2.0' = [for (subnet, i) in subnets: if (!empty(nextHopIPAddress) && !empty(subnet.routeTableName)) {
   name: 'routeTable-${i}'
   params: {
     name: subnet.routeTableName

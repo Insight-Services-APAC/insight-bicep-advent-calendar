@@ -1,22 +1,11 @@
+import { namePrefixes, locPrefixes } from '../../src/configuration/shared/shared.bicep'
+
 using '../orchestration/main.bicep'
 
 param lzPrefix = 'sap'
 param envPrefix = 'prd'
 param roleAssignmentEnabled = true
-param roleAssignments = [
-    {
-        principalId: '2b33ff60-edf0-4216-b2a6-66ec07050fd4'
-        definition: 'Reader'
-        principalType: 'Group'
-        relativeScope: '/'
-    }
-    {
-        principalId: '20bbeee1-e70c-43d3-8c2c-b66fefa31acf'
-        definition: 'Owner'
-        principalType: 'ServicePrincipal'
-        relativeScope: '/'
-    }
-]
+param roleAssignments = []
 param tags = {
     applicationName: 'SAP Landing Zone'
     owner: 'Platform Team'
@@ -44,14 +33,15 @@ param actionGroupEmails = [
 ]
 param virtualNetworkPeeringEnabled = false
 param allowHubVpnGatewayTransit = false
+param nextHopIpAddress = '10.1.1.1'
 param addressPrefixes = '10.15.0.0/24'
 param subnets = [
     {
         name: 'app'
         addressPrefix: '10.15.0.0/27'
-        networkSecurityGroupName: 'nsg-syd-sap-prd-app'
+        networkSecurityGroupName: '${namePrefixes.networkSecurityGroup}-${locPrefixes.australiaEast}-${lzPrefix}-${envPrefix}-app'
         securityRules: []
-        routeTableName: 'udr-syd-sap-prd-app'
+        routeTableName: '${namePrefixes.routeTable}-${locPrefixes.australiaEast}-${lzPrefix}-${envPrefix}-app'
         routes: []
         serviceEndpoints: []
         delegations: []
@@ -61,9 +51,9 @@ param subnets = [
     {
         name: 'db'
         addressPrefix: '10.15.0.32/27'
-        networkSecurityGroupName: 'nsg-syd-sap-prd-db'
+        networkSecurityGroupName: '${namePrefixes.networkSecurityGroup}-${locPrefixes.australiaEast}-${lzPrefix}-${envPrefix}-db'
         securityRules: []
-        routeTableName: 'udr-syd-sap-prd-db'
+        routeTableName: '${namePrefixes.routeTable}-${locPrefixes.australiaEast}-${lzPrefix}-${envPrefix}-db'
         routes: []
         serviceEndpoints: []
         delegations: []
