@@ -2,8 +2,12 @@
   "folders": [
     {
       "path": "./",
-      "name": "Azure Landing Zone - Vending Machine"
+      "name": "IAC Workshop Repo"
     },
+    {
+      "path": "./src",
+      "name": "IaC"
+    }
   ],
   "settings": {
     "editor.formatOnSave": true,
@@ -23,3 +27,4 @@
     }
   }
 }
+
