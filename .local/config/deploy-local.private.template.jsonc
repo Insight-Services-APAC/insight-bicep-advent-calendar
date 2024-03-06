@@ -10,11 +10,10 @@
   "SubscriptionId": "<Subscription ID>",
   "AzureRegion": "australiaeast",
   "ConfigurationFiles": {
-    "example": "../../src/configuration/sub-sap-prd-01.parameters.bicepparam"
+    "example": "../../src/configuration/example.parameters.bicepparam"
   },
   "ParameterOverrides": {
-    "lzPrefix": "lctst", // Change this to your initials or something that will be unique for your deployment
-    "isManagementGroupDeployment": false
+    "lzPrefix": "lctst" // Change this to your initials or something that will be unique for your deployment
   },
   "flags": {
     "deploymentKeyVault": false
