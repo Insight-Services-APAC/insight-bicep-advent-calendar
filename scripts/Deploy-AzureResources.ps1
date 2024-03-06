@@ -220,7 +220,8 @@ try {
   if ($deploymentOutputs) {
     $outputsToPublish = @{}
     $secretOutputsToPublish = @{}
-
+    $outputsNested = $null
+    
     if ($deploymentOutputs[0] -imatch 'Bicep CLI version') {
       if ($null -ne $deploymentOutputs[1]) {
         $outputsNested = $deploymentOutputs[1].GetEnumerator()
