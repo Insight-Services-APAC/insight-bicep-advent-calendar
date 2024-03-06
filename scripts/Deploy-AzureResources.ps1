@@ -171,41 +171,37 @@ try {
 
   switch ($DeploymentScope) {
     "Tenant" {
-      if ($PermissionLevels -notcontains "Tenant"){
+      if ($PermissionLevels -notcontains "Tenant") {
         Write-Warning "Detected PermissionLevel of Tenant is missing in `$context.PermissionLevels. Cannot Invoke-AzureDeployment without this permission level available."
         $deploymentOutputs = $null
       }
-      else
-      {
+      else {
         $deploymentOutputs = Invoke-AzureDeployment -context $context -file $Orchestration -isOrchestration -parameters $params -location $AzureRegion -deploymentScope "Tenant" -WhatIf:$WhatIfPreference -Confirm:$ConfirmPreference
       }
     }
     "ManagementGroup" {
-      if ($PermissionLevels -notcontains "ManagementGroup"){
+      if ($PermissionLevels -notcontains "ManagementGroup") {
         Write-Warning "Detected PermissionLevel of ManagementGroup is missing in `$context.PermissionLevels. Cannot Invoke-AzureDeployment without this permission level available."
         $deploymentOutputs = $null
       }
-      else
-      {
+      else {
         $deploymentOutputs = Invoke-AzureDeployment -context $context -file $Orchestration -isOrchestration -parameters $params -location $AzureRegion -deploymentScope "ManagementGroup" -WhatIf:$WhatIfPreference -Confirm:$ConfirmPreference
       }
     }
     "Subscription" {
-      if ($PermissionLevels -notcontains "Subscription"){
+      if ($PermissionLevels -notcontains "Subscription") {
         Write-Warning "Detected PermissionLevel of Subscription is missing in `$context.PermissionLevels. Cannot Invoke-AzureDeployment without this permission level available."
       }
-      else
-      {
+      else {
         $deploymentOutputs = Invoke-AzureDeployment -context $context -file $Orchestration -isOrchestration -parameters $params -location $AzureRegion -deploymentScope "Subscription" -WhatIf:$WhatIfPreference -Confirm:$ConfirmPreference
       }
     }
     "ResourceGroup" {
-      if ($PermissionLevels -notcontains "ResourceGroup"){
+      if ($PermissionLevels -notcontains "ResourceGroup") {
         Write-Warning "Detected PermissionLevel of ResourceGroup is missing in `$context.PermissionLevels. Cannot Invoke-AzureDeployment without this permission level available."
         $deploymentOutputs = $null
       }
-      else
-      {
+      else {
         if ($ResourceGroup) {
           $deploymentOutputs = Invoke-AzureDeployment -context $context -file $Orchestration -isOrchestration -parameters $params -resourceGroup $ResourceGroup -deploymentScope "ResourceGroup" -WhatIf:$WhatIfPreference -Confirm:$ConfirmPreference
         }
@@ -225,32 +221,45 @@ try {
     $outputsToPublish = @{}
     $secretOutputsToPublish = @{}
 
-    # Support for Bicep CLI version 0.23.1 and later which seems to nest the version as part of the outputs.
     if ($deploymentOutputs[0] -imatch 'Bicep CLI version') {
-      $outputsNested = $deploymentOutputs[1].GetEnumerator()
+      if ($null -ne $deploymentOutputs[1]) {
+        $outputsNested = $deploymentOutputs[1].GetEnumerator()
+      }
     }
     else {
       $outputsNested = $deploymentOutputs.GetEnumerator()
     }
 
+    if ($null -ne $outputsNested) {
+      if ($flags.deploymentKeyVault) {
+        $usingKeyVault = $outputsNested | Where-Object { $_.Key -match "secretname$" } | Test-Any
 
-    if ($flags.deploymentKeyVault) {
-      $usingKeyVault = $outputsNested | Where-Object { $_.Key -match "secretname$" } | Test-Any
+        Invoke-WithTemporaryKeyVaultFirewallBypass -skipBypass:(-not $usingKeyVault) `
+          -ipAddressToAllow (Get-CurrentIpAddress) `
+          -keyVaultName $Context.keyVault.name `
+          -resourceGroupName $Context.keyVault.resourceGroup `
+          -codeToExecute {
 
-      Invoke-WithTemporaryKeyVaultFirewallBypass -skipBypass:(-not $usingKeyVault) `
-        -ipAddressToAllow (Get-CurrentIpAddress) `
-        -keyVaultName $Context.keyVault.name `
-        -resourceGroupName $Context.keyVault.resourceGroup `
-        -codeToExecute {
-
+          $outputsNested | ForEach-Object {
+            $nestedValue = $_.Value.Value
+            if ($_.Key -match "secretname$") {
+              $kvSecret = Get-AzKeyVaultSecret -VaultName $Context.keyVault.name -Name $nestedValue
+              $secret = $kvSecret.SecretValue | ConvertFrom-SecureString -AsPlainText
+              $secretOutputsToPublish[$_.Key -replace "SecretName$", ""] = $secret
+            }
+            elseif ($nestedValue -is [securestring] -or $_.Key -imatch "secure" -or $_.Key -imatch "secret" -or $_.Key -imatch "password") {
+              $secretOutputsToPublish[$_.Key] = $nestedValue
+            }
+            else {
+              $outputsToPublish[$_.Key] = $nestedValue
+            }
+          }
+        }
+      }
+      else {
         $outputsNested | ForEach-Object {
           $nestedValue = $_.Value.Value
-          if ($_.Key -match "secretname$") {
-            $kvSecret = Get-AzKeyVaultSecret -VaultName $Context.keyVault.name -Name $nestedValue
-            $secret = $kvSecret.SecretValue | ConvertFrom-SecureString -AsPlainText
-            $secretOutputsToPublish[$_.Key -replace "SecretName$", ""] = $secret
-          }
-          elseif ($nestedValue -is [securestring] -or $_.Key -imatch "secure" -or $_.Key -imatch "secret" -or $_.Key -imatch "password") {
+          if ($nestedValue -is [securestring] -or $_.Key -imatch "secure" -or $_.Key -imatch "secret" -or $_.Key -imatch "password") {
             $secretOutputsToPublish[$_.Key] = $nestedValue
           }
           else {
@@ -258,29 +267,17 @@ try {
           }
         }
       }
-    }
-    else {
-      $outputsNested | ForEach-Object {
-        $nestedValue = $_.Value.Value
-        if ($nestedValue -is [securestring] -or $_.Key -imatch "secure" -or $_.Key -imatch "secret" -or $_.Key -imatch "password") {
-          $secretOutputsToPublish[$_.Key] = $nestedValue
-        }
-        else {
-          $outputsToPublish[$_.Key] = $nestedValue
-        }
+
+      if ($outputsToPublish.Count -gt 0) {
+        Publish-Variables -values $outputsToPublish
       }
-    }
 
-    if ($outputsToPublish.Count -gt 0) {
-      Publish-Variables -values $outputsToPublish
-    }
+      if ($secretOutputsToPublish.Count -gt 0) {
+        Publish-Variables -values $secretOutputsToPublish -isSecret
+      }
 
-    if ($secretOutputsToPublish.Count -gt 0) {
-      Publish-Variables -values $secretOutputsToPublish -isSecret
     }
-
   }
-
 }
 catch {
   Write-Exception $_

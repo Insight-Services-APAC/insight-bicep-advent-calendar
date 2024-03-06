@@ -1,0 +1,43 @@
+---
+name: '$(Date:ddMMyy).$(Rev:rr)-Landing Zone Vending Machine'
+
+pool:
+  vmImage: ubuntu-latest
+
+trigger:
+  branches:
+    include:
+      - main
+
+pr:
+  autoCancel: true
+  branches:
+    include:
+      - main
+
+# Variables - Variables template file.
+variables:
+  - template: variables/variables.yml
+
+stages:
+  # Build Artifact
+  - template: templates/build.yml
+    parameters:
+      workingDirectory: $(Pipeline.Workspace)
+      templateFile: $(templateFile)
+      serviceConnection: sp-alz-landingzones
+      artifactName: artifact
+      bicepPath: src/
+      skipPSRule: false
+
+  # If you need additional environments, make a copy of the code block below and update the environment and templateParameterFile for each environment.
+  # If you are creating multiple landing zones, e.g. one for Data, another for SAP, etc., make multiple copies of this azure-pipelines.yaml file (e.g. azure-pipelines_SAP.yaml) for each landing zone subscription vending.
+  - template: templates/deploy.yml
+    parameters:
+      environment: production
+      workingDirectory: 'artifact'
+      serviceConnection: sp-alz-landingzones
+      location: $(location)
+      managementGroupId: $(rootMg)
+      templateFile: $(templateFile)
+      templateParameterFile: ./src/configuration/sub-sap-prd-01.parameters.bicepparam
