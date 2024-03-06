@@ -92,7 +92,7 @@ jobs:
       environmentName: 'prd'
       location: 'australiaeast'
       templateFile: ./src/orchestration/main.bicep
-      templateParameterFile: ./src/configuration/parameters.bicepparam
+      templateParameterFile: ./src/configuration/example.parameters.bicepparam
       moduleName: 'landing-Zone-deployment'
     secrets:
       # Environment variables are not supported with caller workflows. You must use repository secrets.
