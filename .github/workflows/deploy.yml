@@ -56,14 +56,14 @@ jobs:
 
       # What-If Deployment
       - name: What-If Deployment
-        uses: Azure/cli@v1.0.9
+        uses: Azure/cli@v2.0.0
         with:
           inlineScript: |
             az deployment sub What-If -n "${{ inputs.moduleName }}-${{ github.run_number }}" -l ${{ inputs.location }} -f ${{ inputs.templateFile }} -p ${{ inputs.templateParameterFile }} -x Ignore NoChange Unsupported -r FullResourcePayloads
 
       # Create Deployment
       - name: Create Deployment
-        uses: Azure/cli@v1.0.9
+        uses: Azure/cli@v2.0.0
         with:
           inlineScript: |
             az deployment sub create -n '${{ inputs.moduleName }}-${{ github.run_number }}' -l ${{ inputs.location }} -f ${{ inputs.templateFile }} -p ${{ inputs.templateParameterFile }}
